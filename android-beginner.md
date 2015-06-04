@@ -22,6 +22,9 @@ Let's say you wanted to write code to represent a car. A `Car` class could conta
 
     // Any text (like this) that follows the characters '//' is called a comment
     // Comments do not count as code; the computer completely ignores them
+    /* 
+     * You can also put text between /* and */ like this if you want to span multiple lines or only part of a line
+     */
     public class Car {
         private int wheels = 4;
         private String color;
@@ -449,8 +452,115 @@ The problem is that although `myCar` has been declared, it has not been initiali
 
 #### Control structures
 
+Java code is executed line-by-line. Since you may need to change which lines are executed, there are many different control structures that let you skip or repeat parts of your code depending on certain conditions.
+
+The simplest is the `if` statement:
+
+    if (/* Some condition here */) {
+        // Code to execute if the condition is true
+    } else if (/* Some other condition */) {
+        // Code to execute if some other condition is true
+    } else {
+        // Code to execute in all other cases
+    }
+
+At minimum, an `if` statement is made up of the keywork `if` followed by a condition in parenthesis. The condition can be any code that returns a boolean (`true` or `false`) value. For example:
+
+    if (someVariable == 4) { ... }
+    if (someFunctionThatReturnsBoolean()) { ... }
+    if (someVariable != someOtherVariable) { ... }
+    if (someFunctionThatReturnsBoolean() && someVariable == 4) { ... }
+    if (someBooleanVariable) { ... }
+
+There are multiple different comparison operators you can use:
+- Equal: `==`
+- Not equal: `!=`
+- Less than, greater than: `<` and `>`
+- Less than or equal, greater than or equal: `<=` and `>=`
+- And: `&&`
+- Or: `||`
+
+Also notice that you can use a variable if that variable contains a boolean value. You can combine these operators in any way that you want; things surrounded by parenthesis will be grouped together and evaluated first.
+
+    if (someVariable == 4 || (someOtherVariable / 2 == 0 && someOtherVariable > 100)) { ... }
+
+You can also negate an entire group  with `!`:
+
+    if (someVariable == 4 || !(someOtherVariable / 2 == 0 && someOtherVariable > 100)) { ... }
+
+**Important note**: When comparing objects, use the `equals` method:
+
+   if (someStringVariable.equals("foo")) { ... }
+   if (myCar.equals(someOtherCar)) { ... }
+
+You can write any code that you want inside of the curly braces after the `if`. However, keep in mind that any new variables you declare inside the curly braces will not exist outside of them:
+
+    if (/* Condition */) {
+        // Create the variable inside the curly braces
+        int foo = 6;
+    }
+    // This will cause an error; the variable does not exist anymore
+    foo = 5;
+
+This is what you would need to do instead:
+
+    int foo;
+    if (/* Condition */) {
+        foo = 6;
+    }
+    foo = 5;
+
+However, `foo` would always end up with a value of 5. Why? Because even if the condition evaluated to `true` and the `if` statement set `foo` equal to 6, the line after the `if` statement *always* gets executed! If you wanted `foo` to have a value of *either* 5 or 6 you would add an `else` statement:
+
+    int foo;
+    if (/* Some condition */) {
+        foo = 6;
+    } else {
+        foo = 5;
+    }
+
+As shown above, you can also check multiple conditions using `else if`. Order does matter: `if` always comes first (you can't use `else if` or `else` otherwise), then `else if`, then `else`.
+
+The next control structure is the `while` loop. It's called a "loop" because the code inside of it will repeat as long as the condition is true:
+
+    while (/* Condition */) {
+        // Code to execute as long as the condition is true
+    }
+
+If the condition evaluates to true, each line inside the loop will be executed until it reaches the closing curly brace. At that point the condition will be checked again; if it evaluates to true, the loop runs again. If not, execution continues with whatever comes after the `while` loop.
+
+There is also the `for` loop which can be used in two ways:
+1. Iterate a certain number of times as long as a condition is true
+2. Iterate over each item in a collection
+
+For example:
+
+    for (int i = 0; i < 5; i++) {
+        ...
+    }
+
+That loop will execute 5 times. The variable `i` will start at 0, the loop will check the condition `i < 5` which will evaluate to `true`, the code inside the loop will execute, and then `i++` increments the value of `i` by 1. At that point the loop begins again by checking if `i < 5`. This will repeat for 0, 1, 2, 3, and 4. Once `i` is incremented to 5 the condition `i < 5` will no longer be true, so the code inside the loop will not execute.
+
+Another example:
+
+    for (Integer i : someCollectionOfIntegers) {
+        ...
+    }
+
+This will iterate over each `Integer` value in the collection `someCollectionOfIntegers` and store the value in `i`, which you can then use in code inside the `for` loop. You might be wondering two things:
+1. Why are we using `Integer` instead of `int`?
+2. What is a collection?
+
+Answering #2 will also anser #1.
+
+#### Collections
+
     // TODO: Left off here for now
 
+switch (verify info)
+do while (brush up)
+
+collections (segue from for loop)
 
 <br/>
 <br/>
@@ -460,3 +570,31 @@ The problem is that although `myCar` has been declared, it has not been initiali
 Need to find places for these
 -----
 
+object types for primitives (Integer, etc)
+
+If you always know what values you will be comparing against, you can use a `switch` statement:
+
+    switch (someVariable) {
+        case 1:
+            // What to do if someVariable == 4
+            break;
+        case 5:
+            // What to do if someVariable == 5
+            break;
+        default:
+            // What to do in all other cases
+    }
+
+It's important to notice that the values used as `case`s are all known. You cannot do something like this:
+
+    switch (someVariable) {
+        case someOtherVariable:
+        ...
+    }
+
+    switch (someVariable) {
+        case someFunction():
+        ...
+    }
+
+The problem is that the value of `someOtherVariable` and 
