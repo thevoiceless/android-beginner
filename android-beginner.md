@@ -555,12 +555,64 @@ Answering #2 will also anser #1.
 
 #### Collections
 
+As the name implies, a Collection in Java is a data structure that can contain a variable number of Objects. Collection itself is an interface that requires implementing methods like `add` (to add an Object to the collection), `contains` (to see if a given Object is in the collection), and `remove` (to remove an Object from the collection). There are many other methods as well, including ones that let Java iterate over the list as shown above. For example, `ArrayList` is probably one of the Collections you'll use most often:
+
+    // Old versions of Java required that you provide the type twice (in this case, Integer) when declaring
+    // a list, but nowadays you can omit the second one and just use <>
+    ArrayList<Integer> myList = new ArrayLIst<>();
+    myList.add(new Integer(1));
+    myList.add(new Integer(64));
+    myList.add(new Integer(-349));
+
+    int sum = 0;
+    for (Integer i : myList) {
+        // '+=' is a shortcut for writing 'sum = sum + (int) i'
+        sum += (int) i;
+    }
+
+    // After that loop has finished, sum will equal -284
+
+ Collections are special in that they can only hold Objects, not primitives. You can still store primitive values but you must wrap them in their corresponding class. `int`s must get wrapped in `Integer` objects, `boolean`s in `Boolean` objects, and so on. They work pretty much the same way as their primitive counterparts except that they use more memory and they can be null (primitives cannot be null, they all have default values). For this reason you should always stick to using the primitives except when you need to treat them as objects. If you need to get them back in primitive form for some reason, you can cast them back.
+
+ #### Casting
+
+ In the example above, the variable `i` inside the `for` loop is an `Integer` object. We're trying to add its value to a regular `int` primitive, so we cast it from an `Integer` to an `int`. Casting allows you to tell Java to treat one kind of object as if it were another kind. Casting is done by writing the type you want an object to become in parenthesis before the variable name. Above, that was done by writing
+
+     (int) i
+
+There are rules, though. Above, we're casting an `Integer` to become an `int`; normally you can **only** cast between class types and `int` is not a class. This is just a special case that Java allows. In fact, it's not even necessary; when you do operations involving an `int` with an `Integer` (like adding them together), Java will take care of converting between the required types. So the example above could actually be written
+
+    sum += i;
+
+without needing to cast. However, primitives are the only case where Java does this for you. In all other cases you must explicitly say which type you're casting to whenever you want it to happen. Not only that, but you **must** ensure that you are allowed to perform the cast! You can only cast:
+
+    // TODO look up all casting rules
+
+One of the most common places you'll encounter casting in Android development is when using a method called `findViewById`. I'll explain in more detail when we get to the Android stuff, but the general idea is that you pass it an ID value and it returns the `View` with that ID:
+
+    View v = findViewById(R.id.some_view);
+
+    // TODO link to documentation for textview in the text below
+
+However, it returns a generic `View` object which usually isn't very helpful. What if the View in question is a TextView (which extends from View)? `findViewById` needs to be generic enough to work with all `View`s, rather than having a bunch of different methods like `findTextViewById` and `findImageViewById` and so on for every single class that extends from `View` (there are a lot of them). Instead, there's the one single `findViewById` method that simply returns a `View`. From there, you as a developer can cast it to whatever type it needs to be.
+
+If the view with the ID of `some_view` is a TextView, you can instead write
+
+    TextView v = (TextView) findViewById(R.id.some_view);
+
+and everythings works out. But if it's **not** a TextView, you'll get an error!
+
+TODO instanceof
+
+So why is this useful? It means that you can write code that works with high-level classes (like `View`) rather than repeating the same code over and over for each of the classes you need.
+
+
+
     // TODO: Left off here for now
 
-switch (verify info)
-do while (brush up)
+switch (verify info below)
+do while (brush up, make sure it works the way I remember)
 
-collections (segue from for loop)
 
 <br/>
 <br/>
@@ -598,3 +650,9 @@ It's important to notice that the values used as `case`s are all known. You cann
     }
 
 The problem is that the value of `someOtherVariable` and 
+
+
+TODO
+-----
+Look for remaining TODOs
+Make sure class names are `monospace`
